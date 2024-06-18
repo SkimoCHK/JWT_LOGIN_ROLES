@@ -15,7 +15,7 @@ namespace JWT_API.Controllers
 
         [HttpPost]
         [Route("Autenticar")]
-        public async Task<IActionResult> GetUsuario([FromBody] AutorizacionRequest request)
+        public async Task<IActionResult> Autenticar([FromBody] AutorizacionRequest request)
         {
             var autor = await _service.DevolverToken(request);
             if(autor == null) return Unauthorized();

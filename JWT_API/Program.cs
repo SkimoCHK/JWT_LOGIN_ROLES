@@ -55,6 +55,13 @@ namespace JWT_API
                 opt.AddPolicy("RequireUserRole", policy => policy.RequireRole("User", "Administrador"));
             });
 
+            builder.Services.AddCors(options => options.AddPolicy("AngularClient", policy => {
+                policy.WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
+
+
             var app = builder.Build();
 
             
@@ -68,6 +75,8 @@ namespace JWT_API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AngularClient");
 
             app.UseAuthentication();
             app.UseAuthorization();
