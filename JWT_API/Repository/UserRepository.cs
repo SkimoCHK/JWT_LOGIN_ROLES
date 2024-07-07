@@ -4,6 +4,7 @@ using JWT_API.Interfaces;
 using JWT_API.Models;
 using JWT_API.Models.Custom;
 using Microsoft.Data.SqlClient;
+using System.Security.Cryptography;
 
 namespace JWT_API.Repository
 {
@@ -39,6 +40,7 @@ namespace JWT_API.Repository
             return usuario;
         }
 
+
         public async Task<IEnumerable<Rol>> GetRoles()
         {
             IEnumerable<Rol> roles = new List<Rol>();
@@ -53,5 +55,34 @@ namespace JWT_API.Repository
             return roles;
 
         }
+
+        public async Task<Usuario> GetUserById(int IdUsuario)
+        {
+            var cn = new Conexion();
+            Usuario? usuario = null;
+            string query = "SELECT u.*, r.* FROM USUARIO u INNER JOIN ROL r ON u.rol = r.IdRol WHERE U.IdUsuario = @IdUsuario";
+            var parametros = new { IdUsuario = IdUsuario };
+
+            using (var conexion = new SqlConnection(cn.GetConnection()))
+            {
+                await conexion.OpenAsync();
+
+                var result  = await conexion.QueryAsync<Usuario, Rol, Usuario>(
+                    query,
+                    (usr, rol) =>
+                    {
+                        usr.RolReference = rol;
+                        return usr;
+                    },
+                    splitOn: "IdRol",
+                    param: parametros
+                    );
+
+                usuario = result.FirstOrDefault();
+            }
+
+            return usuario;
+        }
+
     }
 }

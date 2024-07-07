@@ -21,6 +21,16 @@ namespace JWT_API.Controllers
             if(autor == null) return Unauthorized();
             return Ok(autor);
         }
+        [HttpPost]
+        [Route("obtener-refreshToken")]
+        public async Task<IActionResult> GetRefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var response = await _service.ValidateRefreshToken(request);
+            if(response.Resultado) return Ok(response);
+
+            return BadRequest(response);
+            
+        }
           
 
     }

@@ -7,5 +7,6 @@ namespace JWT_API.Interfaces
     {
         Task<Usuario> AutenticarUsuario(AutorizacionRequest request);
         Task<IEnumerable<Rol>> GetRoles();
+        Task<Usuario> GetUserById(int IdUsuario);
     }
 }
