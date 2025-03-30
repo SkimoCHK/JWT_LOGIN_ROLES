@@ -7,6 +7,5 @@
         public string? Clave { get; set; }
         public int Rol { get; set; }
         public Rol? RolReference { get; set; }
-
     }
 }

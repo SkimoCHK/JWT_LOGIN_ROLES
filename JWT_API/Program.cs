@@ -48,6 +48,7 @@ namespace JWT_API
                 };
             });
 
+
             //Configurar la autorización
             builder.Services.AddAuthorization(opt =>
             {
